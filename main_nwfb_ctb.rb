@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
-require "sqlite3"
+
 require "faraday"
+require "sqlite3"
 require "active_record"
 
 module BusOpenData
