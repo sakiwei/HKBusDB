@@ -29,9 +29,9 @@ jobs:
         bundle install --jobs 4 --retry 3
     - name: Fetching from data.gov.hk
       run: |
-        ruby main_kmb.rb
-        ruby main_nwfb_ctb.rb
-        ruby main.rb
+        bundle exec ruby main_kmb.rb
+        bundle exec ruby main_nwfb_ctb.rb
+        bundle exec ruby main.rb
     - name: Upload database
       uses: test-room-7/action-update-file@v1
       with:
