@@ -26,7 +26,10 @@ jobs:
     - name: Install dependencies
       run: bundle install
     - name: Fetching from data.gov.hk
-      run: rake build
+      run: |
+        ruby main_kmb.rb
+        ruby main_nwfb_ctb.rb
+        ruby main.rb
     - name: Upload database
       uses: test-room-7/action-update-file@v1
       with:
