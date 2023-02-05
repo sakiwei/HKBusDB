@@ -30,12 +30,12 @@ jobs:
     - name: Fetching from data.gov.hk
       run: rake build
     - name: Upload database
-        uses: test-room-7/action-update-file@v1
-        with:
-            file-path: |
-              bus.db
-              bus_db.zip
-              bus_db_md5.txt
-            commit-msg: Upload database
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            branch: gh-pages
+      uses: test-room-7/action-update-file@v1
+      with:
+          file-path: |
+            bus.db
+            bus_db.zip
+            bus_db_md5.txt
+          commit-msg: Upload database
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
