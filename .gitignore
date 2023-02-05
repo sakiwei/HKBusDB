@@ -93,5 +93,7 @@ Gemfile.lock
 
 # Custom
 *.db
+*.zip
+bus_db_md5.txt
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,ruby
