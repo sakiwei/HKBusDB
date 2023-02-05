@@ -91,9 +91,4 @@ Gemfile.lock
 # Used by RuboCop. Remote config files pulled in from inherit_from directive.
 # .rubocop-https?--*
 
-# Custom
-*.db
-*.zip
-bus_db_md5.txt
-
 # End of https://www.toptal.com/developers/gitignore/api/macos,ruby
