@@ -14,9 +14,9 @@ end
 
 task :build => [:clean] do
   STDOUT.puts "Building"
-  STDOUT.puts `ruby main_kmb.rb`
-  STDOUT.puts `ruby main_nwfb_ctb.rb`
-  STDOUT.puts `ruby main.rb`
+  STDOUT.puts `bundle exec ruby main_kmb.rb`
+  STDOUT.puts `bundle exec ruby main_nwfb_ctb.rb`
+  STDOUT.puts `bundle exec ruby main.rb`
 end
 
 task :install do

@@ -385,7 +385,10 @@ def generate_bus_db_zip
       end
     end
 
-    puts Digest::MD5.hexdigest(File.read("bus.db"))
+    md5 = Digest::MD5.hexdigest(File.read("bus.db"))
+    File.open("bus_db_md5.txt", "w") do |f|
+      f.write(md5)
+    end
 
     zip_data = File.read(zip_file.path)
     File.open("bus_db.zip", "w") do |f|
