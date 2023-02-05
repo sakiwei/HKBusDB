@@ -1,4 +1,4 @@
-source 'https://rubygem.org'
+source 'http://rubygem.org'
 
 gem 'sqlite3'
 gem 'faraday'
