@@ -1,0 +1,41 @@
+name: Generate Database Action
+
+on:
+  push:
+    branches: [ "master" ]
+  schedule:
+    - cron: "0 0 3 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generate-database:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ['2.6', '2.7', '3.0']
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Install dependencies
+      run: bundle install
+    - name: Fetching from data.gov.hk
+      run: rake build
+    - name: Upload database
+        uses: test-room-7/action-update-file@v1
+        with:
+            file-path: |
+              bus.db
+              bus_db.zip
+              bus_db_md5.txt
+            commit-msg: Upload database
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            branch: gh-pages
