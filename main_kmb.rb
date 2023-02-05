@@ -1,5 +1,4 @@
 #!/usr/bin/ruby
-require "colorize"
 require "sqlite3"
 require "faraday"
 require "active_record"
@@ -72,7 +71,7 @@ conn = Faraday.new(BusOpenData::DOMAIN) do |f|
 end
 
 def save_bus_route(conn, path)
-  STDOUT.puts "Fetching from : #{path}".green
+  STDOUT.puts "Fetching from : #{path}"
   response = conn.get(path)
   Route.transaction do
     response.body["data"].each { |r|
@@ -93,7 +92,7 @@ save_bus_route(conn, BusOpenData::ROUTE)
 
 def save_route_stop(conn)
   path = "#{BusOpenData::ROUTE_STOP}"
-  STDOUT.puts "Fetching #{BusOpenData::DOMAIN}#{path}".green
+  STDOUT.puts "Fetching #{BusOpenData::DOMAIN}#{path}"
   response = conn.get(path)
   RouteStop.transaction do
     response.body["data"].each { |r|

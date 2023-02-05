@@ -11,7 +11,6 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-    colorize (0.8.1)
     concurrent-ruby (1.1.10)
     faraday (2.7.4)
       faraday-net_http (>= 2.0, < 3.1)
@@ -32,7 +31,6 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
-  colorize
   faraday
   rubyzip
   sqlite3

@@ -1,5 +1,4 @@
 #!/usr/bin/ruby
-require "colorize"
 require "sqlite3"
 require "faraday"
 require "zip"
@@ -133,7 +132,7 @@ nwfb_ctb_db.execute("select * from routes").each { |r|
                    "1",
                    is_circular ? "Y" : "N")
   rescue => exception
-    STDOUT.puts exception.red
+    STDOUT.puts exception
   end
 }
 
@@ -230,7 +229,7 @@ kmb_db.execute("select * from routes").each { |r|
                    r["service_type"],
                    is_circular ? "Y" : "N")
   rescue => exception
-    STDOUT.puts exception.red
+    STDOUT.puts exception
   end
 }
 
