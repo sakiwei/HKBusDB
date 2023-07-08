@@ -33,7 +33,7 @@ jobs:
     - name: Fetching from data.gov.hk
       run: |
         bundle exec ruby main_kmb.rb
-        bundle exec ruby main_nwfb_ctb.rb
+        bundle exec ruby main_ctb.rb
         bundle exec ruby main.rb
     - name: Upload database
       uses: test-room-7/action-update-file@v1

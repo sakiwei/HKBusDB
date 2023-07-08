@@ -7,7 +7,7 @@ require "digest"
 
 module BusOpenData
   KMB_DB = "bus_kmb.db"
-  NWFB_CTB_DB = "bus_nwfb_ctb.db"
+  CTB_DB = "bus_ctb.db"
   OUTPUT_DB = "bus.db"
 end
 
@@ -55,8 +55,8 @@ new_db.execute(routes_sql)
 new_db.execute(route_stops_sql)
 new_db.execute(stops_sql)
 
-nwfb_ctb_db = SQLite3::Database.new(BusOpenData::NWFB_CTB_DB)
-nwfb_ctb_db.results_as_hash = true
+ctb_db = SQLite3::Database.new(BusOpenData::CTB_DB)
+ctb_db.results_as_hash = true
 
 kmb_db = SQLite3::Database.new(BusOpenData::KMB_DB)
 kmb_db.results_as_hash = true
@@ -66,7 +66,7 @@ def standise_name(name)
   return name
 end
 
-nwfb_ctb_db.execute("select * from routes").each { |r|
+ctb_db.execute("select * from routes").each { |r|
   def exception_case(name, route_name)
     if name == "TAI PO CENTRE"
       return "TAI PO CENTRAL"
@@ -261,8 +261,8 @@ merge_items = []
 removal_id.each { |route_id|
   routes = new_db.execute("select * from routes where id = ?", route_id)
   routes.each { |r|
-    merge_target_a = new_db.execute("select * from routes where route = ? and orig_en = ? and dest_en = ? and co in ('NWFB', 'CTB') LIMIT 1", r["route"], r["orig_en"], r["dest_en"])
-    merge_target_b = new_db.execute("select * from routes where route = ? and orig_en = ? and dest_en = ? and co in ('NWFB', 'CTB') LIMIT 1", r["route"], r["dest_en"], r["orig_en"])
+    merge_target_a = new_db.execute("select * from routes where route = ? and orig_en = ? and dest_en = ? and co = 'CTB' LIMIT 1", r["route"], r["orig_en"], r["dest_en"])
+    merge_target_b = new_db.execute("select * from routes where route = ? and orig_en = ? and dest_en = ? and co = 'CTB' LIMIT 1", r["route"], r["dest_en"], r["orig_en"])
     if !merge_target_a.empty?
       # remove a
       merge_items << "#{merge_target_a[0]["id"]},#{merge_target_a[0]["co"]}"
@@ -303,25 +303,15 @@ merge_items.each { |merge_item|
   }
 }
 
-new_db.execute("select * from routes where co like 'NWFB+%'").each { |r|
-  # new_db.execute("select * from routes where route like '%#{r["route"]}%' and ((orig_en = ? or dest_en = ?) or (orig_en = ? or dest_en = ?)) and co in ('NWFB', 'KMB', 'CTB')", r["orig_en"], r["orig_en"], r["dest_en"], r["dest_en"]).each { |r2|
-  new_db.execute("select * from routes where route like '%#{r["route"]}%' and co in ('NWFB', 'KMB', 'CTB')").each { |r2|
-    if !r2["route"].start_with?("X")
-      new_db.execute("update routes set co = ? where id = ?", "NWFB+KMB", r2["id"])
-    end
-  }
-}
-
 new_db.execute("select * from routes where co like 'CTB+%'").each { |r|
-  # new_db.execute("select * from routes where route like '%#{r["route"]}%' and ((orig_en = ? or dest_en = ?) or (orig_en = ? or dest_en = ?)) and co in ('NWFB', 'KMB', 'CTB')", r["orig_en"], r["orig_en"], r["dest_en"], r["dest_en"]).each { |r2|
-  new_db.execute("select * from routes where route like '%#{r["route"]}%' and co in ('NWFB', 'KMB', 'CTB')").each { |r2|
+  new_db.execute("select * from routes where route like '%#{r["route"]}%' and co in ('KMB', 'CTB')").each { |r2|
     if !r2["route"].start_with?("X")
       new_db.execute("update routes set co = ? where id = ?", "CTB+KMB", r2["id"])
     end
   }
 }
 
-nwfb_ctb_db.execute("select * from route_stops").each { |r|
+ctb_db.execute("select * from route_stops").each { |r|
   begin
     new_db.execute("insert into route_stops (co, route, dir, seq, stop) values (?, ?, ?, ?, ?)",
                    r["co"].upcase,
@@ -348,7 +338,7 @@ kmb_db.execute("select * from route_stops").each { |r|
   end
 }
 
-nwfb_ctb_db.execute("select * from stops").each { |r|
+ctb_db.execute("select * from stops").each { |r|
   begin
     new_db.execute("insert into stops (stop, name_tc, name_en, lat, long) values (?, ?, ?, ?, ?)",
                    r["stop"],

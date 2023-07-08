@@ -5,7 +5,7 @@ task default: [:build, :install]
 
 task :clean do
   STDOUT.puts "Cleaning"
-  DbPaths = ["bus.db", "bus_nwfb_ctb.db", "bus_kmb.db"]
+  DbPaths = ["bus.db", "bus_ctb.db", "bus_kmb.db"]
   DbPaths.each do |path|
     File.delete(path) if File.exist?(path)
   end
@@ -15,7 +15,7 @@ end
 task :build => [:clean] do
   STDOUT.puts "Building"
   STDOUT.puts `bundle exec ruby main_kmb.rb`
-  STDOUT.puts `bundle exec ruby main_nwfb_ctb.rb`
+  STDOUT.puts `bundle exec ruby main_ctb.rb`
   STDOUT.puts `bundle exec ruby main.rb`
 end
 

@@ -5,18 +5,18 @@ require "sqlite3"
 require "active_record"
 
 module BusOpenData
+  API_VERSION = "2"
   DOMAIN = "https://rt.data.gov.hk"
-  NWFB_ROUTE = "/v1.1/transport/citybus-nwfb/route/nwfb"
-  CTB_ROUTE = "/v1.1/transport/citybus-nwfb/route/CTB"
-  ROUTE_STOP = "/v1.1/transport/citybus-nwfb/route-stop/"
-  STOP = "/v1.1/transport/citybus-nwfb/stop/"
+  CTB_ROUTE = "/v#{API_VERSION}/transport/citybus/route/CTB"
+  ROUTE_STOP = "/v#{API_VERSION}/transport/citybus/route-stop/"
+  STOP = "/v#{API_VERSION}/transport/citybus/stop/"
 end
 
 ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDOUT)
 
 dbConnect = ActiveRecord::Base.establish_connection(
   :adapter => "sqlite3",
-  :database => "bus_nwfb_ctb.db",
+  :database => "bus_ctb.db",
 )
 
 routes_sql = <<-SQL
@@ -89,7 +89,6 @@ def save_bus_route(conn, path)
   end
 end
 
-save_bus_route(conn, BusOpenData::NWFB_ROUTE)
 save_bus_route(conn, BusOpenData::CTB_ROUTE)
 
 def save_route_stop(conn, co, route, bound, canRetry)
