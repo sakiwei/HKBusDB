@@ -22,32 +22,32 @@ dbConnect = ActiveRecord::Base.establish_connection(
 routes_sql = <<-SQL
     CREATE TABLE IF NOT EXISTS routes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        co varchar(16), 
+        co varchar(16),
         route varchar(16),
         orig_en varchar(255),
         orig_tc varchar(255),
         dest_en varchar(255),
         dest_tc varchar(255),
-        service_type varchar(16)
+        service_type varchar(16) NOT NULL
     );
 SQL
 
 route_stops_sql = <<-SQL
     CREATE TABLE IF NOT EXISTS route_stops (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        co varchar(16), 
+        co varchar(16),
         route varchar(16),
         dir varchar(16),
         seq INTEGER,
         stop varchar(255),
-        service_type varchar(16)
+        service_type varchar(16) NOT NULL
     );
 SQL
 
 stops_sql = <<-SQL
     CREATE TABLE IF NOT EXISTS stops (
         stop varchar(255) PRIMARY KEY,
-        name_tc varchar(255), 
+        name_tc varchar(255),
         name_en varchar(255),
         lat double,
         long double
@@ -84,6 +84,7 @@ def save_bus_route(conn, path)
         orig_tc: r["orig_tc"],
         dest_en: r["dest_en"],
         dest_tc: r["dest_tc"],
+        service_type: -1
       )
     }
   end
@@ -107,6 +108,7 @@ def save_route_stop(conn, co, route, bound, canRetry)
           dir: r["dir"],
           seq: r["seq"],
           stop: r["stop"],
+          service_type: -1
         ).save
       }
     end

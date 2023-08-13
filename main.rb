@@ -20,7 +20,7 @@ routes_sql = <<-SQL
         orig_tc varchar(255),
         dest_en varchar(255),
         dest_tc varchar(255),
-        service_type varchar(16),
+        service_type varchar(16) NOT NULL,
         circular varchar(16)
     );
 SQL
@@ -28,19 +28,19 @@ SQL
 route_stops_sql = <<-SQL
     CREATE TABLE IF NOT EXISTS route_stops (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        co varchar(16), 
+        co varchar(16),
         route varchar(16),
         dir varchar(16),
         seq INTEGER,
         stop varchar(255),
-        service_type varchar(16)
+        service_type varchar(16) NOT NULL
     );
 SQL
 
 stops_sql = <<-SQL
     CREATE TABLE IF NOT EXISTS stops (
         stop varchar(255) PRIMARY KEY,
-        name_tc varchar(255), 
+        name_tc varchar(255),
         name_en varchar(255),
         lat double,
         long double
