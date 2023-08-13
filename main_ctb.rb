@@ -84,7 +84,7 @@ def save_bus_route(conn, path)
         orig_tc: r["orig_tc"],
         dest_en: r["dest_en"],
         dest_tc: r["dest_tc"],
-        service_type: -1
+        service_type: "-1"
       )
     }
   end
@@ -108,7 +108,7 @@ def save_route_stop(conn, co, route, bound, canRetry)
           dir: r["dir"],
           seq: r["seq"],
           stop: r["stop"],
-          service_type: -1
+          service_type: "-1"
         ).save
       }
     end
