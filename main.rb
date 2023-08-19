@@ -130,7 +130,7 @@ ctb_db.execute("select * from routes").each { |r|
                    exception_case(standise_name(r["orig_tc"]).gsub(/\s/, ""), route_name),
                    exception_case(standise_name(r["dest_en"].upcase), route_name),
                    exception_case(standise_name(r["dest_tc"]).gsub(/\s/, ""), route_name),
-                   "1",
+                   "-1",
                    is_circular ? "Y" : "N")
   rescue => exception
     STDOUT.puts exception
@@ -313,12 +313,13 @@ new_db.execute("select * from routes where co like 'CTB+%'").each { |r|
 
 ctb_db.execute("select * from route_stops").each { |r|
   begin
-    new_db.execute("insert into route_stops (co, route, dir, seq, stop) values (?, ?, ?, ?, ?)",
+    new_db.execute("insert into route_stops (co, route, dir, seq, stop, service_type) values (?, ?, ?, ?, ?)",
                    r["co"].upcase,
                    r["route"].upcase,
                    r["dir"].upcase,
                    r["seq"],
-                   r["stop"])
+                   r["stop"],
+                  "-1")
   rescue => exception
     STDOUT.puts exception
   end
