@@ -313,7 +313,7 @@ new_db.execute("select * from routes where co like 'CTB+%'").each { |r|
 
 ctb_db.execute("select * from route_stops").each { |r|
   begin
-    new_db.execute("insert into route_stops (co, route, dir, seq, stop, service_type) values (?, ?, ?, ?, ?)",
+    new_db.execute("insert into route_stops (co, route, dir, seq, stop, service_type) values (?, ?, ?, ?, ?, ?)",
                    r["co"].upcase,
                    r["route"].upcase,
                    r["dir"].upcase,
