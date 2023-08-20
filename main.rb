@@ -299,7 +299,7 @@ merge_items.each { |merge_item|
       new_db.execute("update routes set co = ? where id = ?", new_co, merge_target_b[0]["id"])
     end
     # remove route_id
-    new_db.execute("delete from routes where id = ?", route_id)
+    new_db.execute("delete from routes where id = ? AND service_type is not '-1'", route_id)
   }
 }
 
